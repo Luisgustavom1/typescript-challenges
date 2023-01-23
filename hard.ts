@@ -8,3 +8,19 @@ type SimpleVueParams<D, C, M> = {
 declare function SimpleVue<
   D, C, M
 >(params: SimpleVueParams<D, C, M>): SimpleVueParams<D, C, M>;
+
+// 847 - String Join
+type Join<
+  Delimiter extends string, 
+  T extends string[]
+> = T extends [infer Head, ...infer Tail]
+      ? Tail extends [] // Base Case
+        ? Head
+        : Tail extends string[]
+          ? `${T[0]}${Delimiter}${Join<Delimiter, Tail>}`
+          : ""
+      : ""
+      
+declare function join<
+  Delimiter extends string
+>(delimiter: Delimiter): <T extends string[]>(...parts: T) => Join<Delimiter, T>
